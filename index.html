@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Snipkode Publishing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        .sidebar {
+            transition: transform 0.3s ease-in-out;
+            will-change: transform;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        @media (min-width: 768px) {
+            .sidebar.collapsed {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="h-full flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar fixed md:relative w-72 lg:w-64 h-full bg-[#1a1464] text-white z-30">
+            <div class="p-4">
+                <h1 class="text-xl font-bold mb-8 px-2">Snipkode Publishing</h1>
+                <nav>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="flex items-center p-3 bg-blue-800 rounded-lg transition-colors">
+                                <span class="material-icons mr-3">dashboard</span>
+                                <span class="text-sm">Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 hover:bg-blue-800 rounded-lg transition-colors">
+                                <span class="material-icons mr-3">business</span>
+                                <span class="text-sm">Manage Penerbit</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 hover:bg-blue-800 rounded-lg transition-colors">
+                                <span class="material-icons mr-3">menu_book</span>
+                                <span class="text-sm">Manage Buku</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 hover:bg-blue-800 rounded-lg transition-colors">
+                                <span class="material-icons mr-3">people</span>
+                                <span class="text-sm">Manage Pengguna</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="absolute bottom-4 left-4 text-sm">
+                E-book Digital Platform
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1">
+            <!-- Top Header -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-20">
+                <div class="flex items-center md:hidden">
+                    <button id="menuToggle" class="text-gray-600 focus:outline-none">
+                        <span class="material-icons">menu</span>
+                    </button>
+                </div>
+                <div class="flex items-center ml-auto">
+                    <span class="mr-2 text-sm">Super Administrator</span>
+                    <span class="material-icons">account_circle</span>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="p-6">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Semua Buku -->
+                    <div class="bg-emerald-600 text-white rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="material-icons mr-2">menu_book</span>
+                            <h3>Semua Buku</h3>
+                        </div>
+                        <p class="text-3xl font-bold">12</p>
+                        <div class="flex justify-end mt-4">
+                            <a href="#" class="text-sm hover:underline">Lihat Detail</a>
+                        </div>
+                    </div>
+
+                    <!-- Semua Penerbit -->
+                    <div class="bg-indigo-900 text-white rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="material-icons mr-2">business</span>
+                            <h3>Semua Penerbit</h3>
+                        </div>
+                        <p class="text-3xl font-bold">26</p>
+                        <div class="flex justify-end mt-4">
+                            <a href="#" class="text-sm hover:underline">Lihat Detail</a>
+                        </div>
+                    </div>
+
+                    <!-- Semua Pengguna -->
+                    <div class="bg-purple-900 text-white rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="material-icons mr-2">people</span>
+                            <h3>Semua Pengguna</h3>
+                        </div>
+                        <p class="text-3xl font-bold">503</p>
+                        <div class="flex justify-end mt-4">
+                            <a href="#" class="text-sm hover:underline">Lihat Detail</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Books Transaction -->
+                    <div class="bg-yellow-700 text-white rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="material-icons mr-2">library_books</span>
+                            <h3>Books Transaction</h3>
+                        </div>
+                        <p class="text-3xl font-bold">2331</p>
+                        <div class="flex justify-end mt-4">
+                            <a href="#" class="text-sm hover:underline">Lihat Detail</a>
+                        </div>
+                    </div>
+
+                    <!-- Saldo Platform -->
+                    <div class="bg-red-800 text-white rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="material-icons mr-2">account_balance_wallet</span>
+                            <h3>Saldo Platform</h3>
+                        </div>
+                        <p class="text-2xl font-bold">Rp 230.000.000</p>
+                        <div class="flex justify-end mt-4">
+                            <a href="#" class="text-sm hover:underline">Lihat Detail</a>
+                        </div>
+                    </div>
+
+                    <!-- Estimasi Pendapatan -->
+                    <div class="bg-red-700 text-white rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="material-icons mr-2">trending_up</span>
+                            <h3>Estimasi Pendapatan</h3>
+                        </div>
+                        <p class="text-2xl font-bold">Rp 15.000.000</p>
+                        <div class="flex justify-end mt-4">
+                            <a href="#" class="text-sm hover:underline">Lihat Detail</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Online Users Section -->
+                <div class="mt-6 bg-indigo-900 text-white rounded-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <span class="material-icons mr-2">people_outline</span>
+                        <h3>Pengguna Online (0)</h3>
+                    </div>
+                    <p class="text-sm">No users currently online</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Overlay -->
+        <div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity z-20"></div>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuToggle = document.getElementById('menuToggle');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('collapsed');
+            overlay.classList.toggle('opacity-50');
+            overlay.classList.toggle('pointer-events-none');
+        }
+
+        menuToggle.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Initialize sidebar state
+        function updateSidebarState() {
+            if (window.innerWidth < 768) {
+                sidebar.classList.add('collapsed');
+            } else {
+                sidebar.classList.remove('collapsed');
+                overlay.classList.add('pointer-events-none');
+                overlay.classList.remove('opacity-50');
+            }
+        }
+
+        // Initial state
+        updateSidebarState();
+
+        // Handle resize
+        window.addEventListener('resize', updateSidebarState);
+    </script>
+</body>
+</html>

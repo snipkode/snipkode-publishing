@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Sales Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    #dashboard {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .chart {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive Sales Dashboard</h1>
+  <input type="file" id="fileInput" accept="application/json">
+  <div id="dashboard">
+    <div id="sectorDistribution" class="chart"></div>
+    <div id="salesLevelBreakdown" class="chart"></div>
+    <div id="sectorContribution" class="chart"></div>
+    <div id="topSectors" class="chart"></div>
+    <div id="utilitySectors" class="chart"></div>
+  </div>
+
+  <script>
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const data = JSON.parse(e.target.result);
+          createDashboard(data);
+        };
+        reader.readAsText(file);
+      }
+    });
+
+    function createDashboard(data) {
+      // 1. Sector Distribution
+      const sectors = Object.keys(data).filter(key => !['Skala Usaha', 'Definisi', 'Satuan', 'Jumlah'].includes(key));
+      const values = sectors.map(sector => data[sector]);
+      Plotly.newPlot('sectorDistribution', [{
+        x: values,
+        y: sectors,
+        type: 'bar',
+        orientation: 'h'
+      }], {
+        title: 'Distribusi Total Usaha Berdasarkan Sektor',
+        xaxis: { title: 'Jumlah Usaha' },
+        yaxis: { title: 'Sektor' }
+      });
+
+      // 2. Sales Level Breakdown (Dummy data for levels)
+      const levels = ['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
+      const levelValues = [5000, 15000, 20000, 30000, 15000]; // Adjust based on actual JSON structure
+      Plotly.newPlot('salesLevelBreakdown', [{
+        labels: levels,
+        values: levelValues,
+        type: 'pie'
+      }], {
+        title: 'Pembagian Tingkat Penjualan'
+      });
+
+      // 3. Sector Contribution
+      Plotly.newPlot('sectorContribution', [{
+        labels: sectors,
+        values: values,
+        type: 'treemap'
+      }], {
+        title: 'Kontribusi Sektor terhadap Total Usaha'
+      });
+
+      // 4. Top Sectors
+      const sortedData = sectors.map((sector, index) => ({ sector, value: values[index] }))
+                                .sort((a, b) => b.value - a.value);
+      const topSectors = sortedData.slice(0, 5);
+      Plotly.newPlot('topSectors', [{
+        x: topSectors.map(item => item.sector),
+        y: topSectors.map(item => item.value),
+        type: 'bar'
+      }], {
+        title: 'Sektor Teratas Berdasarkan Jumlah Usaha',
+        xaxis: { title: 'Sektor' },
+        yaxis: { title: 'Jumlah Usaha' }
+      });
+
+      // 5. Utility-Oriented Sectors
+      const utilitySectors = ['Pengadaan Listrik, Gas', 'Pengadaan Air, Pengelolaan Sampah, Limbah dan Daur Ulang', 'Konstruksi'];
+      const utilityValues = utilitySectors.map(sector => data[sector]);
+      Plotly.newPlot('utilitySectors', [{
+        x: utilitySectors,
+        y: utilityValues,
+        type: 'bar'
+      }], {
+        title: 'Persentase Usaha di Sektor Berorientasi Utilitas',
+        xaxis: { title: 'Sektor' },
+        yaxis: { title: 'Jumlah Usaha' }
+      });
+    }
+  </script>
+</body>
+</html>

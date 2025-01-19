@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Penerbit - Snipkode Publishing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        @media (min-width: 768px) {
+            .sidebar.collapsed {
+                transform: translateX(0);
+            }
+        }
+
+        .content-wrapper {
+            height: calc(100vh - 4rem);
+            overflow-y: auto;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        @media (min-width: 768px) {
+            .content-wrapper {
+                height: 100vh;
+            }
+        }
+
+        .overlay {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .overlay.active {
+            opacity: 0.5;
+            pointer-events: all;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="h-full flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar fixed md:relative w-64 h-full bg-[#1a1464] text-white z-30">
+            <div class="p-4">
+                <h1 class="text-xl font-bold mb-8">Snipkode Publishing</h1>
+                <nav>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="flex items-center p-3 hover:bg-blue-800 rounded-lg">
+                                <span class="material-icons mr-3">dashboard</span>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 bg-blue-800 rounded-lg">
+                                <span class="material-icons mr-3">business</span>
+                                Manage Penerbit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 hover:bg-blue-800 rounded-lg">
+                                <span class="material-icons mr-3">menu_book</span>
+                                Manage Buku
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 hover:bg-blue-800 rounded-lg">
+                                <span class="material-icons mr-3">people</span>
+                                Manage Pengguna
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="absolute bottom-4 left-4 text-sm">
+                E-book Digital Platform
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1">
+            <!-- Top Header -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+                <div class="flex items-center md:hidden">
+                    <button id="menuToggle" class="text-gray-600 focus:outline-none">
+                        <span class="material-icons">menu</span>
+                    </button>
+                </div>
+                <div class="flex items-center ml-auto">
+                    <span class="mr-2">Super Administrator</span>
+                    <span class="material-icons">account_circle</span>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="p-6">
+                <!-- Breadcrumb -->
+                <nav class="text-gray-600 mb-4" aria-label="Breadcrumb">
+                    <ol class="list-none p-0 inline-flex">
+                        <li class="flex items-center">
+                            <a href="#">Dashboard</a>
+                            <span class="material-icons text-gray-400 mx-2" style="font-size: 18px;">chevron_right</span>
+                        </li>
+                        <li class="flex items-center">
+                            Manage Penerbit
+                        </li>
+                    </ol>
+                </nav>
+
+                <!-- Main Content Container -->
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex items-center">
+                            <span class="material-icons mr-2">grid_view</span>
+                            <h1 class="text-xl font-semibold">Manage Penerbit</h1>
+                        </div>
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
+                            <span class="material-icons mr-1">add</span>
+                            Add New
+                        </button>
+                    </div>
+
+                    <div class="flex justify-between items-center mb-4">
+                        <div>Semua Penerbit (0)</div>
+                        <input type="text" placeholder="Cari..." class="border rounded-lg px-4 py-2">
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="border px-4 py-2 text-left">No</th>
+                                    <th class="border px-4 py-2 text-left">Nama Penerbit</th>
+                                    <th class="border px-4 py-2 text-left">Published</th>
+                                    <th class="border px-4 py-2 text-left">Tanggal Dibuat</th>
+                                    <th class="border px-4 py-2 text-left">Dibuat Oleh</th>
+                                    <th class="border px-4 py-2 text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" class="border px-4 py-8 text-center text-gray-500">
+                                        No data available
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-center mt-4">
+                        <nav class="flex items-center space-x-1">
+                            <button class="px-3 py-1 rounded border">&laquo;</button>
+                            <button class="px-3 py-1 rounded border bg-blue-600 text-white">1</button>
+                            <button class="px-3 py-1 rounded border">2</button>
+                            <button class="px-3 py-1 rounded border">3</button>
+                            <button class="px-3 py-1 rounded border">4</button>
+                            <button class="px-3 py-1 rounded border">5</button>
+                            <button class="px-3 py-1 rounded border">&raquo;</button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Overlay -->
+        <div id="overlay" class="overlay fixed inset-0 bg-black z-20"></div>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuToggle = document.getElementById('menuToggle');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('collapsed');
+            overlay.classList.toggle('active');
+            document.body.classList.toggle('overflow-hidden');
+        }
+
+        menuToggle.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Initialize sidebar state
+        if (window.innerWidth < 768) {
+            sidebar.classList.add('collapsed');
+        }
+
+        // Handle window resize
+        let windowWidth = window.innerWidth;
+        window.addEventListener('resize', function() {
+            const newWindowWidth = window.innerWidth;
+            const breakpoint = 768;
+            
+            if ((windowWidth < breakpoint && newWindowWidth >= breakpoint) || 
+                (windowWidth >= breakpoint && newWindowWidth < breakpoint)) {
+                if (newWindowWidth >= breakpoint) {
+                    sidebar.classList.remove('collapsed');
+                    overlay.classList.remove('active');
+                    document.body.classList.remove('overflow-hidden');
+                } else {
+                    sidebar.classList.add('collapsed');
+                }
+            }
+            
+            windowWidth = newWindowWidth;
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && window.innerWidth < 768) {
+                if (!sidebar.classList.contains('collapsed')) {
+                    toggleSidebar();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

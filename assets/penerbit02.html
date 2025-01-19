@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Penerbit - Snipkode Publishing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    screens: {
+                        'xs': '375px',
+                        'sm': '640px',
+                        'md': '768px',
+                        'lg': '1024px',
+                        'xl': '1280px',
+                        '2xl': '1536px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        .sidebar {
+            transition: transform 0.3s ease-in-out;
+            will-change: transform;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        @media (min-width: 768px) {
+            .sidebar.collapsed {
+                transform: translateX(0);
+            }
+        }
+
+        .content-wrapper {
+            height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        @media (min-width: 768px) {
+            .content-wrapper {
+                height: 100vh;
+            }
+        }
+
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .overlay {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .overlay.active {
+            opacity: 0.5;
+            pointer-events: all;
+        }
+
+        /* Custom scrollbar for better UX */
+        .content-wrapper::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .content-wrapper::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 640px) {
+            .table-responsive {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="h-full flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar fixed md:relative w-72 lg:w-64 h-full bg-[#1a1464] text-white z-30">
+            <div class="p-4">
+                <h1 class="text-xl font-bold mb-8 px-2">Snipkode Publishing</h1>
+                <nav>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="flex items-center p-3 hover:bg-blue-800 rounded-lg transition-colors">
+                                <span class="material-icons mr-3">dashboard</span>
+                                <span class="text-sm">Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 bg-blue-800 rounded-lg transition-colors">
+                                <span class="material-icons mr-3">business</span>
+                                <span class="text-sm">Manage Penerbit</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 hover:bg-blue-800 rounded-lg transition-colors">
+                                <span class="material-icons mr-3">menu_book</span>
+                                <span class="text-sm">Manage Buku</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 hover:bg-blue-800 rounded-lg transition-colors">
+                                <span class="material-icons mr-3">people</span>
+                                <span class="text-sm">Manage Pengguna</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="absolute bottom-4 left-4 text-sm">
+                E-book Digital Platform
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 relative">
+            <!-- Top Header -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-20">
+                <div class="flex items-center md:hidden">
+                    <button id="menuToggle" class="text-gray-600 focus:outline-none p-2">
+                        <span class="material-icons">menu</span>
+                    </button>
+                </div>
+                <div class="flex items-center ml-auto">
+                    <span class="mr-2 text-sm">Super Administrator</span>
+                    <span class="material-icons">account_circle</span>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="p-4 sm:p-6">
+                <!-- Breadcrumb -->
+                <nav class="text-gray-600 mb-4 text-sm" aria-label="Breadcrumb">
+                    <ol class="list-none p-0 inline-flex items-center">
+                        <li class="flex items-center">
+                            <a href="#">Dashboard</a>
+                            <span class="material-icons text-gray-400 mx-2" style="font-size: 16px;">chevron_right</span>
+                        </li>
+                        <li>Manage Penerbit</li>
+                    </ol>
+                </nav>
+
+                <!-- Main Content Container -->
+                <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                        <div class="flex items-center">
+                            <span class="material-icons mr-2">grid_view</span>
+                            <h1 class="text-lg sm:text-xl font-semibold">Manage Penerbit</h1>
+                        </div>
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center text-sm hover:bg-blue-700 transition-colors w-full sm:w-auto justify-center">
+                            <span class="material-icons text-sm mr-1">add</span>
+                            Add New
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                        <div class="text-sm">Semua Penerbit (0)</div>
+                        <div class="w-full sm:w-auto">
+                            <input type="text" placeholder="Cari..." class="border rounded-lg px-4 py-2 w-full text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="w-full border-collapse min-w-[800px]">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="border px-4 py-2 text-left text-sm font-medium">No</th>
+                                    <th class="border px-4 py-2 text-left text-sm font-medium">Nama Penerbit</th>
+                                    <th class="border px-4 py-2 text-left text-sm font-medium">Published</th>
+                                    <th class="border px-4 py-2 text-left text-sm font-medium">Tanggal Dibuat</th>
+                                    <th class="border px-4 py-2 text-left text-sm font-medium">Dibuat Oleh</th>
+                                    <th class="border px-4 py-2 text-center text-sm font-medium w-32">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" class="border px-4 py-8 text-center text-gray-500 text-sm">
+                                        No data available
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-center mt-6">
+                        <nav class="flex flex-wrap items-center justify-center gap-1">
+                            <button class="px-3 py-1 rounded border text-sm hover:bg-gray-50 transition-colors">&laquo;</button>
+                            <button class="px-3 py-1 rounded border bg-blue-600 text-white text-sm">1</button>
+                            <button class="px-3 py-1 rounded border text-sm hover:bg-gray-50 transition-colors">2</button>
+                            <button class="px-3 py-1 rounded border text-sm hover:bg-gray-50 transition-colors">3</button>
+                            <button class="px-3 py-1 rounded border text-sm hover:bg-gray-50 transition-colors">4</button>
+                            <button class="px-3 py-1 rounded border text-sm hover:bg-gray-50 transition-colors">5</button>
+                            <button class="px-3 py-1 rounded border text-sm hover:bg-gray-50 transition-colors">&raquo;</button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Overlay -->
+        <div id="overlay" class="overlay fixed inset-0 bg-black z-20"></div>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuToggle = document.getElementById('menuToggle');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('collapsed');
+            overlay.classList.toggle('active');
+            document.body.classList.toggle('overflow-hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('collapsed');
+            overlay.classList.remove('active');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        menuToggle.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', closeSidebar);
+
+        // Initialize sidebar state
+        function updateSidebarState() {
+            if (window.innerWidth < 768) {
+                sidebar.classList.add('collapsed');
+            } else {
+                sidebar.classList.remove('collapsed');
+                overlay.classList.remove('active');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+
+        // Initial state
+        updateSidebarState();
+
+        // Debounced resize handler
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(updateSidebarState, 100);
+        });
+
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSidebar();
+            }
+        });
+
+        // Handle swipe gestures for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    // Swipe right - open sidebar
+                    if (window.innerWidth < 768 && sidebar.classList.contains('collapsed')) {
+                        toggleSidebar();
+                    }
+                } else {
+                    // Swipe left - close sidebar
+                    if (window.innerWidth < 768 && !sidebar.classList.contains('collapsed')) {
+                        closeSidebar();
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
